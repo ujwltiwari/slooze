@@ -1,0 +1,317 @@
+{
+  "info": {
+    "name": "Slooze Food Ordering App (GraphQL)",
+    "_postman_id": "c5f2a4b4-0000-0000-0000-000000000001",
+    "description": "Postman collection for role & country-based food ordering app (Nick Fury, managers, members). Fully updated for GraphQL API using native GraphQL body mode. Uses Collection Variables for seamless token handling.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/graphql"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login as Admin (Nick Fury)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set(\"token\", jsonData.data.login.token);",
+                  "console.log(\"Admin Token Set to Collection Variables\");"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation Login($email: String!, $password: String!) {\n  login(loginInput: { email: $email, password: $password }) {\n    token\n    user { id role country }\n  }\n}",
+                "variables": "{\n  \"email\": \"nick@slooze.xyz\",\n  \"password\": \"password\"\n}"
+              }
+            },
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "Login as Manager India (Captain Marvel)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set(\"token\", jsonData.data.login.token);",
+                  "console.log(\"Manager India Token Set\");"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation Login($email: String!, $password: String!) {\n  login(loginInput: { email: $email, password: $password }) {\n    token\n    user { id role country }\n  }\n}",
+                "variables": "{\n  \"email\": \"marvel@slooze.xyz\",\n  \"password\": \"password\"\n}"
+              }
+            },
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "Login as Manager America (Captain America)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set(\"token\", jsonData.data.login.token);",
+                  "console.log(\"Manager USA Token Set\");"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+           "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation Login($email: String!, $password: String!) {\n  login(loginInput: { email: $email, password: $password }) {\n    token\n    user { id role country }\n  }\n}",
+                "variables": "{\n  \"email\": \"cap@slooze.xyz\",\n  \"password\": \"password\"\n}"
+              }
+            },
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "Login as Member India (Thanos)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set(\"token\", jsonData.data.login.token);",
+                  "console.log(\"Member India Token Set\");"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation Login($email: String!, $password: String!) {\n  login(loginInput: { email: $email, password: $password }) {\n    token\n    user { id role country }\n  }\n}",
+                "variables": "{\n  \"email\": \"thanos@slooze.xyz\",\n  \"password\": \"password\"\n}"
+              }
+            },
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "Login as Member America (Travis)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set(\"token\", jsonData.data.login.token);",
+                  "console.log(\"Member USA Token Set\");"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation Login($email: String!, $password: String!) {\n  login(loginInput: { email: $email, password: $password }) {\n    token\n    user { id role country }\n  }\n}",
+                "variables": "{\n  \"email\": \"travis@slooze.xyz\",\n  \"password\": \"password\"\n}"
+              }
+            },
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Restaurants & Menu",
+      "item": [
+        {
+          "name": "Get Restaurants (Role Based)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  restaurants {\n    id\n    name\n    country\n    menuItems {\n      id\n      name\n      price\n    }\n  }\n}",
+                "variables": "{}"
+              }
+            },
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "Get Specific Restaurant",
+          "request": {
+            "method": "POST",
+            "header": [
+               { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetRestaurant($id: Int!) {\n  restaurant(id: $id) {\n    id\n    name\n    country\n    menuItems {\n      id\n      name\n      price\n    }\n  }\n}",
+                "variables": "{\n  \"id\": 1\n}"
+              }
+            },
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Get My Orders",
+          "request": {
+             "method": "POST",
+             "header": [
+               { "key": "Authorization", "value": "Bearer {{token}}" }
+             ],
+             "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  orders {\n    id\n    status\n    totalAmount\n    restaurant { name country }\n    items { menuItem { name } quantity }\n  }\n}",
+                "variables": "{}"
+              }
+            },
+             "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "Create Order",
+          "request": {
+             "method": "POST",
+             "header": [
+               { "key": "Authorization", "value": "Bearer {{token}}" }
+             ],
+             "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CreateOrder($input: CreateOrderInput!) {\n  createOrder(createOrderInput: $input) {\n    id\n    totalAmount\n    status\n  }\n}",
+                "variables": "{\n  \"input\": {\n    \"restaurantId\": 1,\n    \"items\": [ { \"menuItemId\": 1, \"quantity\": 2 } ]\n  }\n}"
+              }
+            },
+             "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "Checkout Order (Admin/Manager Only)",
+          "request": {
+             "method": "POST",
+             "header": [
+               { "key": "Authorization", "value": "Bearer {{token}}" }
+             ],
+             "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation Checkout($id: Int!, $pmId: Int!) {\n  checkoutOrder(id: $id, paymentMethodId: $pmId) {\n    id\n    status\n  }\n}",
+                "variables": "{\n  \"id\": 1,\n  \"pmId\": 1\n}"
+              }
+            },
+             "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "Cancel Order (Admin/Manager Only)",
+          "request": {
+             "method": "POST",
+             "header": [
+               { "key": "Authorization", "value": "Bearer {{token}}" }
+             ],
+             "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation Cancel($id: Int!) {\n  cancelOrder(id: $id) {\n    id\n    status\n  }\n}",
+                "variables": "{\n  \"id\": 1\n}"
+              }
+            },
+             "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payment Methods",
+      "item": [
+        {
+          "name": "Get Payment Methods",
+           "request": {
+             "method": "POST",
+             "header": [
+               { "key": "Authorization", "value": "Bearer {{token}}" }
+             ],
+             "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  paymentMethods {\n    id\n    type\n    maskedDetails\n  }\n}",
+                "variables": "{}"
+              }
+            },
+             "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "Create Payment Method (Admin Only)",
+           "request": {
+             "method": "POST",
+             "header": [
+               { "key": "Authorization", "value": "Bearer {{token}}" }
+             ],
+             "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CreatePM($userId: Int!, $type: String!, $details: String!) {\n  createPaymentMethod(userId: $userId, type: $type, maskedDetails: $details) {\n    id\n    type\n  }\n}",
+                "variables": "{\n  \"userId\": 1,\n  \"type\": \"VISA\",\n  \"details\": \"4242\"\n}"
+              }
+            },
+             "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        }
+      ]
+    }
+  ]
+}

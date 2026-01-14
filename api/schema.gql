@@ -1,0 +1,116 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: Int!
+  email: String!
+  name: String!
+  role: Role!
+  country: Country!
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  MEMBER
+}
+
+enum Country {
+  INDIA
+  AMERICA
+}
+
+type MenuItem {
+  id: Int!
+  name: String!
+  price: Int!
+  isAvailable: Boolean!
+  restaurantId: Int!
+}
+
+type Restaurant {
+  id: Int!
+  name: String!
+  country: Country!
+  address: String!
+  menuItems: [MenuItem!]
+}
+
+type OrderItem {
+  id: Int!
+  menuItemId: Int!
+  menuItem: MenuItem!
+  quantity: Int!
+  unitPrice: Int!
+}
+
+type Order {
+  id: Int!
+  userId: Int!
+  user: User!
+  restaurantId: Int!
+  restaurant: Restaurant!
+  status: OrderStatus!
+  totalAmount: Int!
+  createdAt: DateTime!
+  items: [OrderItem!]!
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PaymentMethod {
+  id: Int!
+  type: String!
+  maskedDetails: String!
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
+type Query {
+  users: [User!]!
+  user(id: Int!): User!
+  restaurants: [Restaurant!]!
+  restaurant(id: Int!): Restaurant
+  orders: [Order!]!
+  order(id: Int!): Order!
+  paymentMethods: [PaymentMethod!]!
+  me: User!
+}
+
+type Mutation {
+  createUser(email: String!, password: String!, name: String!, role: String!, country: String!): User!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  checkoutOrder(id: Int!, paymentMethodId: Int!): Order!
+  cancelOrder(id: Int!): Order!
+  createPaymentMethod(userId: Int!, type: String!, maskedDetails: String!): PaymentMethod!
+  updatePaymentMethod(id: Int!, type: String!, maskedDetails: String!): PaymentMethod!
+  login(loginInput: LoginInput!): AuthResponse!
+}
+
+input CreateOrderInput {
+  restaurantId: Int!
+  items: [OrderItemInput!]!
+}
+
+input OrderItemInput {
+  menuItemId: Int!
+  quantity: Int!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
