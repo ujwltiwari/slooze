@@ -25,91 +25,70 @@ It features a **NestJS** backend (migrated to **GraphQL** + **Prisma**) and a **
 - pnpm (Recommended package manager)
 - PostgreSQL Database
 
-## Docker Setup
-Run the entire stack (Frontend, Backend, Database) with Docker Compose:
+## Quick Start
+Follow these steps to get the application running locally.
 
-1. Build and start the containers:
-   ```bash
-   docker-compose up --build
-   ```
+### 1. Database Setup
+The project uses PostgreSQL which can be easily started using Docker.
 
-2. Access the application:
-   - **Frontend**: [http://localhost:3001](http://localhost:3001)
-   - **Backend**: [http://localhost:3000/graphql](http://localhost:3000/graphql)
-
-3. **Seeding Data** (Optional):
-   The database starts empty. To load the test personas (Admin/Manager/Member), run:
-   ```bash
-   docker-compose exec api pnpm seed
-   ```
-
-## Configuration
-Before running the application, set up the environment variables:
-
-1. **Backend**: Copy the example env file:
-   ```bash
-   cp api/.env.example api/.env
-   ```
-
-2. **Frontend**: Copy the example env file:
-   ```bash
-   cp frontend/.env.example frontend/.env
-   ```
-
-## Setup Instructions
-
-### 1. Backend Setup
-Navigate to the `api` directory:
+Navigate to the `api` directory and start the database:
 ```bash
 cd api
+docker-compose up -d
 ```
+This spins up a Postgres instance on port `5432`.
 
-Install dependencies:
-```bash
-pnpm install
-```
+### 2. Backend Setup
+Make sure you are in the `api` directory.
 
-Configure Environment:
-Ensure you have a `.env` file with `DATABASE_URL` pointing to your Postgres instance.
-```env
-DATABASE_URL="postgresql://user:password@localhost:5432/slooze_db?schema=public"
-JWT_SECRET="super-secret"
-```
+1. **Configuration**:
+   Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
 
-Initialize Database & Seed Data:
-```bash
-# Generate Prisma Client
-pnpm prisma generate
+2. **Install Dependencies**:
+   ```bash
+   pnpm install
+   ```
 
-# Push Schema to DB
-pnpm prisma db push
+3. **Initialize Database**:
+   Run the following commands to generate Prisma client, push the schema, and seed the database with test data:
+   ```bash
+   pnpm prisma generate
+   pnpm prisma db push
+   pnpm seed
+   ```
 
-# Seed the Database (Creates Test Personas)
-pnpm ts-node prisma/seed.ts
-```
+4. **Start the API**:
+   ```bash
+   pnpm run start:dev
+   ```
+   The backend will be running at `http://localhost:3000/graphql`.
 
-Start the Backend:
-```bash
-pnpm run start:dev
-```
-Server runs at `http://localhost:3000/graphql`.
-
-### 2. Frontend Setup
-Navigate to the `frontend` directory:
+### 3. Frontend Setup
+Open a new terminal and navigate to the `frontend` directory:
 ```bash
 cd frontend
 ```
 
-Install dependencies:
-```bash
-pnpm install
-```
+1. **Configuration**:
+   Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
 
-Start the Frontend:
-```bash
-pnpm run dev
-```
-Application runs at `http://localhost:3001`.
+2. **Install Dependencies**:
+   ```bash
+   pnpm install
+   ```
+
+3. **Start the App**:
+   ```bash
+   pnpm run dev
+   ```
+   The application will be running at `http://localhost:3001`.
+
 
 ## Verification & Testing
 
